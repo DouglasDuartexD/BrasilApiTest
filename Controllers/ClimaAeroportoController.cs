@@ -18,7 +18,31 @@ public class ClimaAeroportoController : ControllerBase
         _dbContext = dbContext;
     }
 
-
+    /// <summary>
+    /// Busca dados de clima de um aeroporto especifico.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>Clima do aeroporto</returns>
+    /// <remarks>
+    /// Requisição de exemplo usando codigoICAO "SBAR":
+    ///
+    ///     Method/GET
+    ///      {
+    ///        "id": 7,
+    ///        "umidade": 70,
+    ///        "visibilidade": ">10000",
+    ///        "codigoICAO": "SBAR",
+    ///        "pressaoAtmosferica": 1015,
+    ///        "vento": 18,
+    ///        "direcaoVento": 80,
+    ///        "condicao": "ps",
+    ///        "condicaoDescricao": "Predomínio de Sol",
+    ///        "temperatura": 27,
+    ///        "atualizadoEm": "2023-09-03T16:00:00.23Z",
+    ///        "createdAt": "2023-09-03T18:40:26.3244506-03:00"
+    ///      }
+    ///
+    /// </remarks>
     [HttpGet("aeroporto/{icaoCode}")]
     [ProducesResponseType(typeof(ClimaAeroporto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,7 +74,7 @@ public class ClimaAeroportoController : ControllerBase
                 {
                     StatusCode = (int)response.StatusCode,
                     ApiOrigem = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}",
-                    ApiDestino = $"{uri.ToString()}{routeApi}",
+                    ApiDestino = $"{uri.ToString()}{routeApi}{icaoCode}",
                     CreatedAt = DateTime.Now,
                     Request = icaoCode,
                     Method = HttpContext.Request.Method,

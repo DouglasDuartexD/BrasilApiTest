@@ -20,6 +20,10 @@ public class ClimaService
 
     public async Task SalvarClimaCidade(ClimaCidade clima)
     {
+        foreach (var previsaoClimaCidade in clima.Clima)
+        {
+            previsaoClimaCidade.CreatedAt = DateTime.Now;
+        }
         clima.CreatedAt = DateTime.Now;
         _dbContext.ClimaCidade.Add(clima);
         await _dbContext.SaveChangesAsync();
